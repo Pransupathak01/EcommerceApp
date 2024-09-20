@@ -1,22 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Login from './src/auth/login';
-import Register from './src/component/Register';
+import React from 'react';
+import { Provider } from 'react-redux';
+import store from './src/store/store';
+import EcommerceApp from './src/EcommerceApp';
 
-const Stack = createStackNavigator();
 export default function App() {
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-         headerTitleAlign: 'center' ,
-        }}>
-        <Stack.Screen name="Login" component={Login}  options={{ headerTitle: 'Login' }}/>
-        <Stack.Screen name="Register" component={Register}  options={{ headerTitle: 'Register' }}/>
-      </Stack.Navigator>
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    <Provider store={store}>
+      <EcommerceApp/>  
+    </Provider>
   );
 }
 

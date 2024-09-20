@@ -22,7 +22,7 @@ const Register = ({ navigation }) => {
             await AsyncStorage.setItem('fullName', fullName);
             await AsyncStorage.setItem('email', email);
             await AsyncStorage.setItem('password', password);
-            Alert.alert('Registration Successful', 'You can now log in');
+            Alert.alert('Registration Successful');
             navigation.navigate('Login');
         } catch (error) {
             console.error('Error during registration', error);
@@ -34,13 +34,13 @@ const Register = ({ navigation }) => {
             <Text style={styles.title}>Sign Up</Text>
             <TextInput
                 style={styles.input}
-                placeholder="fullName"
+                placeholder="FullName"
                 value={fullName}
                 onChangeText={setFullName}
             />
             <TextInput
                 style={styles.input}
-                placeholder="email"
+                placeholder="Email"
                 value={email}
                 onChangeText={setemail}
             />

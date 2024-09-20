@@ -6,12 +6,19 @@ const Login = ({ navigation }) => {
     const [password, setPassword] = useState('');
   
     const handleLogin = async () => {
+        if ( !email || !password ) {
+            Alert.alert('Registration Failed', 'Please fill out all fields');
+            return;
+        }
       try {
         const storedEmail = await AsyncStorage.getItem('email');
         const storedPassword = await AsyncStorage.getItem('password');
   
         if (email === storedEmail && password === storedPassword) {
+          const loginTimestamp = Date.now().toString();
+          await AsyncStorage.setItem('loginTimestamp', loginTimestamp);
             Alert.alert('Login Successfull');
+            navigation.navigate("Products")
           
         } else {
           Alert.alert('Login Failed', 'Incorrect email or password');
