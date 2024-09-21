@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Button, FlatList, Image, StyleSheet } from 'react-native';
+import Toast from 'react-native-root-toast';
 import { useSelector, useDispatch } from 'react-redux';
 import {removeFromCart } from '../store/reducers/CartSlice';
 
@@ -9,18 +10,29 @@ const Cart = ({navigation}) => {
 
   const handleRemoveFromCart = (item) => {
     dispatch(removeFromCart(item));
+    Toast.show('😮 Item removed from cart!', {
+      duration: Toast.durations.SHORT, 
+      position: 85, 
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+      backgroundColor: '#ffffff', 
+      textColor: '#000000',      
+    }); 
   };
   const renderItem = ({ item }) => (
-    <View style={styles.cartItem}>
+    <View style={styles.cartConatiner}>
       <Image
         source={{ uri: item.thumbnail }}
         style={styles.thumbnail}
         resizeMode="contain"
       />
+      <View style={styles.cartInfoContainer}>
       <Text style={{ fontSize: 18 }}>{item.title}</Text>
       <Text style={styles.cartText}>Quantity: {item.quantity}</Text>
       <Text style={styles.cartText}>Price: ${item.price}</Text>
       <Button title="Remove from Cart" onPress={() => handleRemoveFromCart(item)} />
+      </View>
     </View>
   );
 
@@ -33,9 +45,11 @@ const Cart = ({navigation}) => {
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}
           />
-          <TouchableOpacity style={styles.button} >
+          <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate("Checkout")}>
             <Text style={styles.buttonText}>Checkout</Text>
           </TouchableOpacity>
+          </View>
         </>
       ) : (
         <View style={styles.emptyCartContainer}>
@@ -48,21 +62,26 @@ const Cart = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-
+    flex:1,
+    flexDirection:'column',
+    justifyContent:'center',
+  },
+  cartConatiner: {
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: '#f9f9f9',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  cartInfoContainer: {
+    padding:10
   },
   emptyCartContainer:{
     flex: 1,
     justifyContent: 'center',
     alignItems:'center',
   },
-  cartItem: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
+
   thumbnail: {
     width: '100%',
     height: 200,
@@ -72,13 +91,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#007bff',
     padding: 8,
     borderRadius: 5,
-    width: '100%',
-    alignItems: 'center',
-    marginVertical: 10
+    width: '90%',
+   
+  },
+  buttonContainer: {
+    alignItems: 'center', 
+    marginVertical: 10,
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
+    textAlign: 'center',
   },
   cartText: {
     fontSize: 16,
@@ -86,7 +109,9 @@ const styles = StyleSheet.create({
   },
   emptyCartText: {
     fontSize:24,
-    color:'#007bff'
+    fontWeight:'500',
+    color:'#007bff',
+    marginBottom:80
 
   }
 });

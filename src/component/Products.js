@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, Image, Button, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, Image, Button, FlatList, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import Toast from 'react-native-root-toast';
 import productsData from '../assets/products.json';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/reducers/CartSlice';
@@ -17,6 +18,15 @@ const Products = () => {
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
+    Toast.show('🎉 Item added to cart!', {
+      duration: Toast.durations.SHORT, 
+      position: 85, 
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+      backgroundColor: '#ffffff', 
+      textColor: '#000000',      
+    }); 
   };
 
   if (!products) {
@@ -47,21 +57,23 @@ const Products = () => {
               style={styles.thumbnail}
               resizeMode="contain"
             />
+            <View style={styles.productInfoContainer}>
             <View style={styles.row}>
               <Text style={styles.title}>{item.title}</Text>
               <Text style={styles.productText}>Rating: {item.rating} / 5</Text>
             </View>
             <Text style={styles.productDescription}>{item.description}</Text>
-            <View style={styles.productInfoContainer}>
+            <View style={styles.productTextContainer}>
               <Text style={styles.productText}>Price: ${item.price}</Text>
               <Text style={styles.productText}>Discount: {item.discountPercentage}%</Text>
               <Text style={styles.productText}>Stock: {item.stock}</Text>
             </View>
-            <View style={styles.productInfoContainer}>
+            <View style={styles.productTextContainer}>
               <Text style={{ paddingRight: 8 }}>Brand: {item.brand}</Text>
               <Text>Category: {item.category}</Text>
             </View>
             <Button title="Add to Cart" onPress={() => handleAddToCart(item)}/>
+          </View>
           </View>
         )}
       />
@@ -88,6 +100,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 2,
   },
+  productInfoContainer: {
+    padding:10
+  },
   thumbnail: {
     width: '100%',
     height: 200,
@@ -108,7 +123,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 17,
   },
-  productInfoContainer: {
+  productTextContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: 10,

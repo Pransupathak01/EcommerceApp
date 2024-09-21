@@ -8,6 +8,8 @@ import Login from './auth/login';
 import Register from './component/Register';
 import Products from './component/Products';
 import Cart from './component/Cart';
+import Checkout from './component/Checkout';
+import OrderPlaced from './component/OrderPlaced';
 
 const Stack = createStackNavigator();
 const LOGIN_TIMEOUT = 60 * 60 * 1000;
@@ -70,6 +72,8 @@ const EcommerceApp = () => {
           })}
         />
         <Stack.Screen name="Cart" component={Cart} options={{ headerTitle: 'Cart' }} />
+        <Stack.Screen name="Checkout" component={Checkout} options={{ headerTitle: 'Checkout' }} />
+        <Stack.Screen name="OrderPlaced" component={OrderPlaced}  options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
